@@ -1,0 +1,49 @@
+name:               "Jingfeng Yang"
+description:        "A student in Peking University"
+
+url:                ""
+author:             "thinker3197"
+email:              "yjfllpyym@pku.edu.cn"
+gravatar_hash:      "205e460b479e2e5b48aec07710c08d50"
+twitter:            "jhondoe"
+github:             "JingfengYang"
+pinterest:          "jhondoe"
+linkedin:           "jhondoe"
+facebook:           "jhondoe"
+
+disqus_shortname:   "thinker3197"
+
+background:         "http://apple.wallpapersfine.com/wallpapers/original/1242x2208/w-5273.jpg"
+
+paginate:           5
+paginate_path:      "/page:num/"
+
+baseurl:            ""
+permalink:          /:year/:month/:day/:title/
+
+markdown:           kramdown
+
+nav:
+  - name:           "CV"
+    href:           "/CV.pdf"
+ 
+
+sass:
+  style:            :compressed
+
+defaults:
+  -
+    scope:
+      path:         ""
+      type:         "pages"
+    values:
+      layout:       "page"
+  -
+    scope:
+      path:         ""
+      type:         "posts"
+    values:
+      layout:       "post"
+
+gems:
+  - jekyll-paginate
