@@ -25,7 +25,7 @@ markdown:           kramdown
 
 nav:
   - name:           "CV"
-    href:           "/CV.pdf"
+    href:           "/CV-Jingfeng Yang.pdf"
  
 
 sass:
