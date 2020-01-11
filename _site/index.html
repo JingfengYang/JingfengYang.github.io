@@ -1,54 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Jingfeng Yang</title>
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,600">
-    <link href="/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
-    <link rel="alternate" type="application/rss+xml" title="RSS Feed for Jingfeng Yang" href="/feed.xml" />
-</head>
-
-
-<body class="preload">
-    <div class="top"></div>
-    <div class="profile" style="background-image: url(http://apple.wallpapersfine.com/wallpapers/original/1242x2208/w-5273.jpg);">
-        <img src="../me.jpeg" class="img-circle" />
-        <h3 style="color:#000000">Jingfeng Yang</h3>
-        <p style="color:#000000">yjfllpyym@pku.edu.cn</p>
-        <ul class="social">
-            
-            <a type="button" href="http://github.com/JingfengYang">
-                <i class="fa fa-github"></i>
-            </a>
-             
-            <a type="button" href="http://twitter.com/jhondoe">
-                <i class="fa fa-twitter"></i>
-            </a>
-             
-            <a type="button" href="http://linkedin.com/in/jhondoe">
-                <i class="fa fa-linkedin"></i>
-            </a>
-             
-            <a type="button" href="http://pinterest.com/jhondoe">
-                <i class="fa fa-pinterest"></i>
-            </a>
-             
-            <a type="button" href="http://facebook.com/jhondoe">
-                <i class="fa fa-facebook"></i>
-            </a>
-            
-        </ul>
-    </div>
-    <div class="posts">
-        <header class="bloghead">
+---
+layout: default 
+---
+<header class="bloghead">
     <h1 class="bloghead-title">
-    <a href="/">Jingfeng Yang<span>&#39;s homepage</span></a>
+    <a href="{{ site.url }}/">{{ site.name }}<span>&#39;s homepage</span></a>
   </h1>
     <nav class="bloghead-nav">
-        
-        <a href="/CV.pdf">CV<span> &nbsp;/&nbsp; </span></a> 
+        {% for nav in site.nav %}
+        <a href="{{ nav.href }}">{{ nav.name }}<span> &nbsp;/&nbsp; </span></a> {% endfor %}
     </nav>
 </header>
 <div class="content">
@@ -57,37 +16,47 @@
         <h2 class="post-title">
         Bio
     	</h2> 
-        <p>I am a junior in Peking University, majoring in Computer Science and Life Science. I'm really interested in Natuaral Languge Processing and Machine Learning techniques, especially cross-lingual tasks, semantic parsing and discourse analysis.</p>
+        <p>I am a first-year master student majoring in Computer Science at Georgia Tech.</p>
     </div>
     <div class="post-list">
         <h2 class="post-title">
         Education
     	</h2> 
-        <p>School of Electronics and computer Science, Peking University, Beijing, China.  Sep 2016- now</p>
-	<p>School of Life Science, Peking University, Beijing, China.  Sep 2015- now</p>
+        <p>Master of Science: Computer Science, Georgia Tech, Atlanta, America.  Aug 2019- now</p>
+        <p>Bachelor of Science: Computer Science and Biological Science, Peking University, Beijing, China.  Sep 2015 - July 2019</p>
     </div>
     <div class="post-list">
         <h2 class="post-title">
-        Publications
+        Publications / Preprints
     	</h2> 
-        <p><a href="https://arxiv.org/abs/1809.01497">Jingfeng Yang, Sujian Li. 2018. Chinese Discourse Segmentation Using Bilingual Discourse Commonality. arXiv preprint arXiv:1809.01497</a> </p>
-	<p><a href="https://arxiv.org/abs/1803.01165">Yizhong Wang, Sujian Li, Jingfeng Yang, Xu Sun, Houfeng Wang. 2017. Tag-enhanced tree-structured neural networks for implicit discourse relation classification. In The 8th International Joint Conference on Natural Language Processing(IJCNLP)</a></p>
+	<p><span style="font-weight:bolder;">Jingfeng Yang</span>, Federico Fancellu, Bonnie Webber. 2019. A survey of cross-lingual features for zero-shot semantic parsing. arXiv:1908.10461<a href="https://arxiv.org/pdf/1908.10461.pdf">[Paper]</a> </p>
+        <p><b>Jingfeng Yang</b>, Sujian Li. 2018. Chinese Discourse Segmentation Using Bilingual Discourse Commonality. arXiv:1809.01497<a href="https://arxiv.org/abs/1809.01497">[Paper]</a> </p>
+	<p>Yizhong Wang, Sujian Li, <b>Jingfeng Yang</b>. 2018. Toward Fast and Accurate Neural Discourse Segmentation. In 2018 Empirical
+Methods in Natural Language Processing (EMNLP)<a href="https://www.aclweb.org/anthology/D18-1116">[Paper]</a><p>
+	<p>Yizhong Wang, Sujian Li, <b>Jingfeng Yang</b>, Xu Sun, Houfeng Wang. 2017. Tag-enhanced tree-structured neural networks for implicit discourse relation classification. In The 8th International Joint Conference on Natural Language Processing(IJCNLP)<a href="https://arxiv.org/abs/1803.01165">[Paper]</a></p>
     </div>
     <div class="post-list">
         <h2 class="post-title">
         Research Experiences
     	</h2> 
+	<p>Intership in College of Computing, Georgia Institute of Technology. Aug 2019 - present </p>
         <p>Visiting Student in Institute for Language, Cognition and Computation, The University of Edinburgh. July 2018 - Septempber 2018 </p>
-	<p>Internship in Department of Computational Linguistics, Peking University. July 2017 - now</p>
+	<p>Internship in Department of Computational Linguistics, Peking University. July 2017 - June 2019</p>
     </div>
-    
+    <div class="post-list">
+        <h2 class="post-title">
+        Work Experiences
+    	</h2> 
+	<p>Teaching Assistant <a href="https://www.cc.gatech.edu/classes/AY2020/cs7650_spring/">CS7650-4650 Natural Language Processing</a>, Georgia Institue of Technology. Spring 2020 </p>
+        <p>SWE intern, Microsoft Research Asia. December 2018 - March 2019 </p>
+    </div>
     <div class="post-list">
         <h2 class="post-title">
         Fellowships/Awards 
     	</h2> 
-        <p>May 4th Fellowship of Peking University, 2016-2017</p>
+        <p>May 4th Fellowship, 2016-2017</p>
 	<p>Merit Student of Peking University, 2016-2017</p>
-	<p>Guanghua Fellowship of Peking University, 2015-2016</p>
+	<p>Kwang-Hua Fellowship, 2015-2016</p>
 	<p>Merit Student of Peking University, 2015-2016</p>
 	<p>Silver medal in China Mathematics Olympiad, 2015</p>
 	
@@ -95,12 +64,3 @@
 
     
 </div>
-
-    </div>
-</body>
-<script type="text/javascript">
-    window.onload = function(){
-        document.getElementsByTagName("BODY")[0].classList.remove("preload");
-    }
-</script>
-</html>
