@@ -9,7 +9,7 @@ twitter:            "JingfengY"
 github:             "JingfengYang"
 linkedin:           "jingfeng-yang-797864172"
 facebook:           "yang.jingfeng.33"
-instagram:          "yjfllpyym"
+instagram:          "albertyang111"
 disqus_shortname:   "thinker3197"
 
 background:         "w-5273.jpg"
@@ -23,6 +23,20 @@ permalink:          /:year/:month/:day/:title/
 markdown:           kramdown
 
 nav:
+  - name:           "Bio"
+    href:           "#bio"
+  - name:           "News"
+    href:           "#news"
+  - name:           "Education"
+    href:           "#education"
+  - name:           "Publications"
+    href:           "#publications"
+  - name:           "Research Experiences"
+    href:           "#research"
+  - name:           "Work Experiences"
+    href:           "#work"
+  - name:           "Awards"
+    href:           "#awards"
   - name:           "CV"
     href:           "/CV-Jingfeng.pdf"
  
@@ -44,5 +58,5 @@ defaults:
     values:
       layout:       "post"
 
-gems:
+plugins:
   - jekyll-paginate
