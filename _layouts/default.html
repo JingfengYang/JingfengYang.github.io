@@ -13,6 +13,10 @@
             <a type="button" href="http://github.com/{{ site.github }}">
                 <i class="fa fa-github"></i>
             </a>
+            {% endif %} {% if site.scholar %}
+            <a type="button" href="https://scholar.google.com/{{ site.scholar }}">
+                <i class="fa fa-google-plus"></i>
+            </a>
             {% endif %} {% if site.twitter %}
             <a type="button" href="http://twitter.com/{{ site.twitter }}">
                 <i class="fa fa-twitter"></i>
@@ -25,11 +29,7 @@
             <a type="button" href="http://facebook.com/{{ site.facebook }}">
                 <i class="fa fa-facebook"></i>
             </a>
-            {% endif %} {% if site.instagram %}
-            <a type="button" href="http://www.instagram.com/{{ site.instagram }}">
-                <i class="fa fa-instagram"></i>
-            </a>
-            {% endif %} 
+            {% endif %}  
         </ul>
     </div>
     <div class="posts">
