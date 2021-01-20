@@ -32,6 +32,8 @@ nav:
     href:           "#education"
   - name:           "Publications"
     href:           "#publications"
+  - name:           "Service"
+    href:           "#service"
   - name:           "Research Experiences"
     href:           "#research"
   - name:           "Work Experiences"
