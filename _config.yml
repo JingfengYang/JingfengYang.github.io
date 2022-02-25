@@ -10,10 +10,11 @@ github:             "JingfengYang"
 linkedin:           "jingfeng-yang-797864172"
 facebook:           "yang.jingfeng.33"
 instagram:          "albertyang111"
+zhihu:              "albertyang-86"
 scholar:            "citations?user=hysBvrwAAAAJ&hl=en"
 disqus_shortname:   "thinker3197"
 
-background:         "w-5273.jpg"
+background:         "bg3.jpeg"
 
 paginate:           5
 paginate_path:      "/page:num/"
