@@ -3,7 +3,7 @@ title: Why did all of the public reproduction of GPT-3 fail? In which tasks shou
 permalink: /gpt.html
 ---
 
-All the opinions in the post are my own.
+The post is written on Feb 12th, 2023. All the opinions in the post are my own.
 
 **Why did all of the public reproduction of GPT-3 fail? In which tasks should we use GPT-3.5/ChatGPT?**
 
