@@ -112,6 +112,7 @@ In conclusion, when there is enough labeled data, considering the amazing perfor
 7. The Flan Collection: Designing Data and Methods for Effective Instruction Tuning
 8. InstructGPT: Training language models to follow instructions with human feedback
 9. Yao Fu’s blog on “Tracing Emergent Abilities of Language Models to their Sources”
+10. Inverse Scaling Prize: https://github.com/inverse-scaling/prize
 
 
 
