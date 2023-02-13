@@ -1,4 +1,4 @@
-I"�{<p>All the opinions in the post are my own.</p>
+I"#<p>All the opinions in the post are my own.</p>
 
 <p><strong>Why did all of the public reproduction of GPT-3 fail? In which tasks should we use GPT-3.5/ChatGPT?</strong></p>
 
@@ -36,11 +36,42 @@
 
 <ol>
   <li><strong>Training framework</strong>: A model larger than 175B typically requires ZeRO-fashion data parallel (distributed optimizer) and model parallel (including tensor parallel, pipeline parallel and sometimes sequence parallel). OPT used FSDP implementation of ZeRO, and Megatron-LM implementation of model parallel. BLOOM used Deepspeed implementation of ZeRO and Megatron-LM implementation of model parallel. PaLM used Pathways, which is a TPU-based model parallel and data parallel system. Details of the GPT-3 training system are still unknown, but they at least used model parallel in some way (some people said it uses Ray). Different training systems and hardwares can actually lead to some different phenomena during training. Obviously, some TPU training setups enclosed in PaLM paper are probably not suitable for GPU training in all the other models. One important implication of hardwares and training frameworks is whether people could use bfloat16 to store model weights, activations, and so on. This has been shown to be a very important factor for stable training, because bfloat16 can represent larger ranges of floating numbers, handling large values during training loss spikes. In TPU, bfloat16 is the default option, which could be one secret why PaLM is successful. But in GPUs, people previously mainly used float16, which is the only option for mixed-precision training in V100. OPT used float16, which could be one factor of its instability. BLOOM identified such an issue and eventually used bfloat16 on A100 GPUs, but it did not realize the importance of such setting, thus applying additional layer normalization after the first embedding, which was used to solve instability in their preliminary experiments of using float16. However, such layer normalization has been shown to cause worse zero-shot generalization, which could be one factor of BLOOM’s failure.</li>
-  <li><strong>Training duration</strong>: As shown in the following table, the number of tokens seen by the original GPT3 pretraining process is similar to OPT and BLOOM, while PaLM has seen much more tokens during pretraining. Also, PaLM and GPT3 pretraining corpus are both larger than BLOOM and OPT pretraining corpus.  Thus, pretraing on more tokens with larger high-quality corpus could be an important factor of GPT3 and PaLM’s success. 
-<img src="/tokens.png" alt="Training Token Comparison" /></li>
   <li><strong>Modifications during training procedure</strong>: OPT did a lot of midflight adjustment and restarted training from a recent checkpoint, including changing clip gradient norm and learning rate, switching to vanilla SGD and then back to Adam, resetting the dynamic loss scalar, switching to a newer version of Megatron. Such midflight adjustments are probably one reason why OPT failed. In comparison, PaLM nearly did not do any midflight adjustment. It just re-started training from a checkpoint roughly 100 steps before the spike started, and skipped roughly 200–500 data batches. Such simple restarting could magically succeed in PaLM, because of its Bitwise determinism where sampling is finished during pretraining data construction, and  because of many modifications to the models architecture and training setup for better stability. Such modifications in PaLM are shown in the next point.</li>
   <li><strong>Model Architecture/Training Setup</strong>: In order to make training more stable, PaLM made several adjustment to the model architecture and training setup, including using a modified version of Adafactor as the optimizer, scaling pre-softmax output logits, using an auxiliary loss to encourage the softmax normalizer to be close to 0, using different initialization for kernel weights and embeddings, using no bias in dense kernel and lay norms, and using no dropout during pretraing. Note that there are also more valuable lessons in GLM-130B on how to stably train very large models, like using DeepNorm based Post-LN instead of Pre-LN, and Embedding Layer Gradient Shrink. Most of the model modifications are not adopted in OPT and BLOOM, which might cause their instability and failures.</li>
+  <li><strong>Training duration</strong>: As shown in the following table, the number of tokens seen by the original GPT3 pretraining process is similar to OPT and BLOOM, while PaLM has seen much more tokens during pretraining. Also, PaLM and GPT3 pretraining corpus are both larger than BLOOM and OPT pretraining corpus.  Thus, pretraing on more tokens with larger high-quality corpus could be an important factor of GPT3 and PaLM’s success.</li>
 </ol>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center">Pretraining Corpus Tokens</th>
+      <th style="text-align: center">Tokens Seen During Pretraining</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">PaLM</td>
+      <td style="text-align: center">780B</td>
+      <td style="text-align: center">770B</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">GPT3</td>
+      <td style="text-align: center">500B</td>
+      <td style="text-align: center">300B</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">OPT</td>
+      <td style="text-align: center">180B</td>
+      <td style="text-align: center">300B</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">BLOOM</td>
+      <td style="text-align: center">380B</td>
+      <td style="text-align: center">336B</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>There are some other factors, which are probably not that important for stabler training, but could still affect the final performance. First, both PaLM and GPT-3 used gradually increased (smaller to larger) batch sizes during the training process which has been shown effective to train a better LLM, while OPT and BLOOM used constant batch size. Second, OPT used ReLU activation, while PaLM used SwiGLU activation, and GPT-3/BLOOM used GeLU activation, which typically leads to better performance of training a LLM. Finally, to model longer sequences better, PaLM used RoPE embeddings, and BLOOM used ALiBi embeddings, while original GPT-3 and OPT used learned positional embeddings, which might affect performance with long sequences.</p>
 
