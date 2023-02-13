@@ -1,63 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Why did all of the public reproduction of GPT-3 fail? In which tasks should we use GPT-3.5/ChatGPT?</title>
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,600">
-    <link href="/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
-    <link rel="alternate" type="application/rss+xml" title="RSS Feed for Jingfeng Yang" href="/feed.xml" />
-    <script src="https://kit.fontawesome.com/5186839478.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-</head>
-
-
-<body class="preload">
-    <div class="top"></div>
-    <div class="profile" style="background-image: url(bg3.jpeg);">
-        <img src="../jf3.jpeg" class="img-circle" />
-        <h3 >Jingfeng Yang</h3>
-        <p style="color:white;">yjfllpyym@gmail.com</p>
-        <ul class="social">
-            
-            <a type="button" href="http://github.com/JingfengYang">
-                <i class="fa-brands fa-github fa-2x"></i>
-            </a>
-             
-            <a type="button" href="https://www.semanticscholar.org/author/Jingfeng-Yang/7788583">
-                <i class="ai ai-semantic-scholar-square ai-2x"></i>
-            </a>
-             
-            <a type="button" href="https://scholar.google.com/citations?user=hysBvrwAAAAJ&hl=en">
-                <i class="ai ai-google-scholar-square ai-2x"></i>
-            </a>
-             
-            <a type="button" href="http://twitter.com/JingfengY">
-                <i class="fa-brands fa-twitter fa-2x"></i>
-            </a>  
-             
-            <a type="button" href="http://linkedin.com/in/jingfeng-yang-797864172">
-                <i class="fa-brands fa-linkedin fa-2x"></i>
-            </a>
-             
-            <a type="button" href="https://www.zhihu.com/people/albertyang-86">
-                <i class="fa-brands fa-zhihu fa-2x"></i>
-            </a>
-               
-        </ul>
-    </div>
-    <div class="posts">
-        <header class="head">
-  <h1 class="head-title">
-    <a href="/">Jingfeng Yang</a>
-  </h1>
-</header>
-
-
-<div class="content page">
-  <h1 class="page-title">Why did all of the public reproduction of GPT-3 fail? In which tasks should we use GPT-3.5/ChatGPT?</h1>
-  <p>All the opinions in the post are my own.</p>
+I"f<p>All the opinions in the post are my own.</p>
 
 <p><strong>Why did all of the public reproduction of GPT-3 fail? In which tasks should we use GPT-3.5/ChatGPT?</strong></p>
 
@@ -210,14 +151,4 @@
   <li>Yao Fu’s blog on “Tracing Emergent Abilities of Language Models to their Sources”</li>
 </ol>
 
-
-</div>
-
-    </div>
-</body>
-<script type="text/javascript">
-    window.onload = function(){
-        document.getElementsByTagName("BODY")[0].classList.remove("preload");
-    }
-</script>
-</html>
+:ET
