@@ -1,4 +1,4 @@
-I"÷<p>The post is written on Feb 12th, 2023. All the opinions in the post are my own.</p>
+I"÷<p>The post was written on Feb 12th, 2023. All the opinions in the post are my own.</p>
 
 <p><strong>Why did all of the public reproduction of GPT-3 fail? In which tasks should we use GPT-3.5/ChatGPT?</strong></p>
 
@@ -134,7 +134,7 @@
   </li>
 </ol>
 
-<p>Note that, in real-world use cases, even without the ability to use LLMs online to meet the latency requirement, one can still use LLMs to generate/label data offline. Such labeled data could be looked up and provided to users online, or be used to finetune a smaller model. Using such data to finetune a smaller model, could alleviate the human-annotated data required to train a model, and inject some emergent abilities (e.g. CoT) of LLMs to smaller models.</p>
+<p>Note that, in real-world use cases, even without the ability to use LLMs online to meet the latency requirement, one can still use LLMs to generate/label data offline. Such labeled data could be looked up and provided to users online, or be used to finetune a smaller model. Using such data to finetune a smaller model could alleviate the human-annotated data required to train a model, and inject some emergent abilities (e.g. CoT) of LLMs to smaller models.</p>
 
 <p>In conclusion, when there is enough labeled data, considering the amazing performance of open-resource FLAN-T5 in many tasks, I recommend one with limited resources of calling OpenAI API to first try to finetune a FLAN-T5-11B on the target task. Also, according to recent amazingly better performance of FLAN-PaLM 540B compared with the most recent version of InstructGPT‚Äôs performance on MMLU dataset (according to HELM), Google is likely to have the even stronger base model than OpenAI, if OpenAI has already vendored their strongest LLM through the API. The only remaining step for Google is to align this LLM to the dialogue scenario through human feedback. I would not be surprised if they have a similar or even better chatbot like ChatGPT soon, despite their recent ‚Äúunsuccessful‚Äù release of Bard, which is probably based on LaMDA.</p>
 
