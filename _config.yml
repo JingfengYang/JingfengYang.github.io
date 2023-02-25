@@ -40,6 +40,8 @@ nav:
     href:           "#research"
   - name:           "Industry Experiences"
     href:           "#work"
+  - name:           "Talks"
+    href:           "#talks"
   - name:           "Teaching Experiences"
     href:           "#teaching"
   - name:           "Awards"
