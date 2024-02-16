@@ -1,5 +1,5 @@
 ---
-title: Capability or Alignment? Respect the LLM Base Model’s Capability During Alignment?
+title: Capability or Alignment? Respect the LLM Base Model’s Capability During Alignment
 permalink: /alignment.html
 ---
 
