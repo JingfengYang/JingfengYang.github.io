@@ -32,6 +32,8 @@ nav:
     href:           "#news"
   - name:           "Education"
     href:           "#education"
+  - name:           "Blog"
+    href:           "#blog"
   - name:           "Publications"
     href:           "#publications"
   - name:           "Service"
