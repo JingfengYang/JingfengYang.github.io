@@ -63,9 +63,34 @@
 
 <p>In this post, I will first motivate discussion of the capability and alignment with some evidence on the source of LLM capabilities. Then I will define model capability and alignment respectively. I also discuss their boundaries and why capabilities mainly come from base models. Based on this, I will introduce some principles to respect base model capability during each method of alignment. Finally, I emphasize the importance of evaluation used to show the effectiveness of our principle.</p>
 
-<p>Note that the arguments are based on the goal that base model construction and alignment is to get a general purpose model, chatbot and A(G)I, or at least a specialist that behaves properly in real-world cases, instead of optimizing performance on any specific tasks and domains or performance on benchmarks. </p>
+<p>All the arguments are based on the goal that base model construction and alignment is to get a general purpose model, chatbot and A(G)I, or at least a specialist that behaves properly in real-world cases, instead of optimizing performance on any specific tasks and domains or performance on benchmarks. </p>
 
-<p><img src="https://lh7-us.googleusercontent.com/qJ_hGE_XyUWedLan-zfSlFKs984NfciWokBq_NRdhhuAi3IIbl53KL3ducjjWCpo0-aYEHJI5RGLAOnJdfg-A0krIWeNsP4p5bYXUX47ZAfOsxPwq3SGuoh7XRJvxpYLK4QaEAqj38FdgFvVpARVogc" alt="" /></p>
+<p><img src="https://lh7-us.googleusercontent.com/jj1x0q9wP50-3X-pk6-_hrW28155BLxhOkVKIpPsPeoss-rJsUSFRLYiEYNReLbEdCUYb4-yDumVPdmkKq3ST8He6CHVeyafNlY79VLmlehFhWbWL5rbKt1S7wmQInAp2BxYVq-_bHJtbq6VJRN_qVo" alt="" /></p>
+
+<h1 id="table-of-contents">Table of contents</h1>
+<ol>
+  <li><a href="#evidence-of-llm-capabilities-coming-from-the-base-model">Evidence of LLM capabilities coming from the base model</a></li>
+  <li><a href="#what-capabilities-does-a-strong-base-model-have">What capabilities does a strong base model have?</a></li>
+  <li><a href="#whats-alignment">What’s Alignment?</a></li>
+  <li><a href="#whats-the-boundary-between-capability-and-alignment">What’s the boundary between Capability and Alignment?</a></li>
+  <li><a href="#why-do-capabilities-of-llms-mainly-come-from-base-models">Why do capabilities of LLMs mainly come from Base Models?</a></li>
+  <li><a href="#how-to-do-alignment">How to do Alignment?</a>
+    <ol>
+      <li><a href="#alignment-during-pretraining">Alignment During Pretraining</a></li>
+      <li><a href="#alignment-with-prompting">Alignment With Prompting</a></li>
+      <li><a href="#alignment-by-fine-tuning">Alignment by Fine Tuning</a>
+        <ol>
+          <li><a href="#sft-alignment">SFT Alignment</a></li>
+          <li><a href="#rlhf-alignment">RLHF Alignment</a></li>
+          <li><a href="#rlaif-alignment">RLAIF Alignmentg</a></li>
+          <li><a href="#dpo-alignment">DPO Alignment</a></li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li><a href="#why-do-many-evaluation-results-still-seem-good-without-following-our-principles--the-importance-of-proper-evaluation">Why do many evaluation results still seem good without following our principles?</a></li>
+  <li><a href="#whats-the-implications-and-future-research-questions-considering-major-capabilities-come-from-base-models">What’s the implications and future research questions considering major capabilities come from base models?</a></li>
+</ol>
 
 <h2 id="evidence-of-llm-capabilities-coming-from-the-base-model">Evidence of LLM capabilities coming from the base model<a id="evidence-of-llm-capabilities-coming-from-the-base-model"></a></h2>
 
@@ -85,8 +110,9 @@
 <h2 id="what-capabilities-does-a-strong-base-model-have">What capabilities does a strong base model have?<a id="what-capabilities-does-a-strong-base-model-have"></a></h2>
 
 <p>There are some common capabilities that are growing when scaling models and corresponding data sizes, like world knowledge, reasoning, coding, multilinguality etc. There are also some other surprising capabilities that are correlated much with scaling of model and data sizes during pretraining. Only given a strong and large enough base model, such capabilities can show up with or without alignment. Given a weak and small base model, even with the same alignment technique, there is still no such capabilities as much. This could indicate that much of them mainly come from the base model instead of the alignment post-training.</p>
+
 <ol>
-  <li>For <strong>long-context modeling capabilities</strong>, some evidence showed that long-context LLMs can be effectively trained even with very limited long data [9]. Surprisingly, inference time position mapping could even extend short-context models to relatively long contexts to some extent [10], which means that the base model could probably already have long context modeling capability. Continual training without proper data engineering might lead to collapse, losing some short-text performance, or overfitting to limited long sequences.</li>
+  <li>For <strong>long-context modeling capabilities</strong>, some evidence showed that long-context LLMs can be effectively trained even with very limited long data [9, 36]. Surprisingly, inference time position mapping could even extend short-context models to relatively long contexts to some extent [10], which means that the base model could probably already have long context modeling capability. Continual training without proper data engineering might lead to collapse, losing some short-text performance, or overfitting to limited distribution of long sequences [36].</li>
   <li>With larger and stronger base models, parts of <strong>alignment</strong> purpose are sometimes achieved <strong>inherently</strong> even better. For example, the larger model can do moral self-correction with appropriate prompts [11], thus leading to better safety alignment. Also, prompting alone could already align a base model to some extent if the base model is strong enough [1].</li>
   <li>With larger models, <strong>calibration and robustness</strong> is better. Some works show that larger and stronger models could calibrate its responses better by measuring uncertainty [12], and could use self-consistency strategy to improve reasoning [13]. Magically, larger models can even know what it knows before generating actual responses [12]. Using properties above could potentially reduce hallucination and improve honesty, by producing more self-consistent responses, conducting self-calibration, or refusing to answer unknown questions. Besides, for larger models, interpretability through natural language is more reliable and scalable to interpret the model itself [14].</li>
   <li>With larger models, it could develop many <strong>emergent capabilities</strong>, even many human-like behaviors, like power-seeking, sandbagging, deception, sycophancy, theory of mind etc. We could leverage some behaviors (e.g. debating [15], self-correction) during the alignment process, while we also need to mitigate other behaviors (e.g. deception, sycophancy etc.) for better alignment purposes.</li>
@@ -118,7 +144,7 @@
 
 <p>From the information theory perspective, base model pretraining might develop intelligence capabilities through lossless compression.  During pretraining, when we scale base models, LLMs could have a better language modeling loss (next-token probability) curve which generalizes to the whole texts including those unseen. The lower loss curve we have, the better compression ratio we have, meaning that we have better intelligence.  If we truly believe that intelligence comes from such lossless compression, the core capabilities should also be developed during this pretraining process. It’s not possible for finetuning or other similar heavy alignment methods to see such scale of text data and compress them by obtaining a better language modeling probability trajectory over all the texts. Instead, the language modeling loss over pretraining corpus would even slightly increase after alignment finetuning, which might increase the compression ratio and make it a worse compressor, losing some capabilities as general intelligence. </p>
 
-<p><img src="https://lh7-us.googleusercontent.com/pAy6__ph5cxVdnMBQf1pIgnzKOBCBoCdrhzSiTmH2K8achJpPC5F82uS86kZS-6qdLHKZ6iPRcwerhTluIdVuhVPM2BhmV_0ARxJ064IVqdq1_Kz_lRiwBlXqh-gGE0sYtyeNtIf9TpwsGRrjtwrIMc" alt="" /></p>
+<p><img src="https://lh7-us.googleusercontent.com/osS73ppq5CFjT4e0yfV9nQDvg_bFhQHbnnY1AmmDjJajsrTcIyGYGwEvc-SBWhMqeDe08m3apSJp7UbCFmKBbSUZI_mSYrFwV5FiN_gWfaAvfHJGDsMR9VRKdoJMEOz_lN3n2HSp45NZ5qih_CLqt5s" alt="" /></p>
 
 <p>Figure comes from https://www.youtube.com/watch?v=dO4TPJkeaaU</p>
 
@@ -152,43 +178,54 @@
 
 <p>When it comes to alignment through finetuning, it is probably the most effective method for alignment till now. Again, maintaining the base model’s capability without degradation of generalizability (Principle 2) during eliciting is crucial to avoid caveats during this process. People could rely on supervised finetuning, best-of-N rejection sampling method, DPO or PPO RLHF to align the model to human values. Sometimes, using strong base models’ capabilities as the successful sauce (Principle 1),  Self-rewarding LLMs [28], Constitutional AI [17, 34, 35], scalable oversight [18, 19], weak-to-strong generalization [16], alignment via debate [15] are claimed to be potentially able to align a superhuman base model. </p>
 
-<h3 id="sft-alignment">SFT Alignment<a id="sft-alignment"></a></h3>
+<h4 id="sft-alignment">SFT Alignment<a id="sft-alignment"></a></h4>
 
 <p>For supervised finetuning, the diversity of instructions and quality of annotated responses are the most important things (Principle 3). This has been mentioned in Self-instruct, LIMA and many other papers [29]. If we imagine that each instruction could elicit one corresponding ability of the base model, and enable the model to follow various instructions of all similar tasks, a set of very diverse instructions could cover most instruction following cases. Note that it is still questionable whether 1000 examples (e.g. in LIMA paper) is enough to lead to a good instruction following model, because more instructions are typically required to cover more rough types of fine-grained capabilities. But if there is too much instruction tuning data (e.g. much more than 52k data used in Alpaca), it’s hard to maintain its balance (one dimension of diversity) and could lead to loss of base model’s general capability and overfitting (againt our Principle 2). Essentially, the reason why Vicuna using ShareGPT data has always been very strong in the lmsys chat arena leaderboard till now, is that the most high-coverage instruction data are those provided by a large group of real-world users (ShareGPT), and it also mostly aligns with human intents. This is consistent with our goal of having a general instruction-following model, instead of optimizing performance on specific tasks. But even for a specific task, leveraging too much task-specific data instead of relying on the base model’s capability is still dangerous. Because there could always be out-of-distribution data for this task, when facing real-world usage. Thus overfitting to limited distribution of this task during finetuning could have a negative impact.   </p>
 
-<h3 id="rlhf-alignment">RLHF Alignment<a id="rlhf-alignment"></a></h3>
+<h4 id="rlhf-alignment">RLHF Alignment<a id="rlhf-alignment"></a></h4>
 
-<h4 id="why-could-rlhf-work-and-be-superior-to-sft">Why could RLHF work and be superior to SFT?<a id="why-could-rlhf-work-and-be-superior-to-sft"></a></h4>
+<details>
+  <summary> <b>Why could RLHF work and be superior to SFT?</b> </summary>
+  <br />
+  RLHF could work because of using a base model with strong capabilities to initialize both reward model and policy (as well as critic and reference models), which is essentially according to our Principle 1. Let’s first see why RLHF could theoretically work better than SFT imitation learning under the reward modeling framework. 
+  <br /><br />
+  From the perspective of the reward model, RL people consistently had the sense that a well-generalized reward model is one of the most important things for RLHF to work \[25]. First, “ RLHF could generalize better since evaluation is usually ‘easier’ than generation for most tasks we care about” \[25], which is one fundamental assumption that Reward Modeling and RLHF could work \[25]. That is especially true when the reward base model has strong and deep understanding capability (Principle 1). Second, we have the hope that “the model can learn user intentions to a sufficiently high accuracy”, which can generalize to wide distributions. That is another fundamental assumption for Reward Modeling \[25]. Similarly, this can only come true with a very strong reward base model (Principle 1). Finally, “the ambition of reward modeling is to solve all design specification problems, thus all we need to do is equip the LLM agent with the ‘correct’ reward function and reward modeling is meant to be a one-stop solution for this entire alignment problem” \[25]. Again, a strong reward base model gives us such hope. In summary, all of the above requires a strong base model initializing the RM and eliciting strong capabilities from the base model to complete preference/reward labeling task (Principle 1). 
+  <br /><br />
+  From the perspective of policy updating towards higher reward, first, “reward modeling allows us to shift the burden of solving the credit assignment problem from the user to the policy of RL”\[25]. Thus, LLM policy should have the capability to automatically assign credit on the whole response to each token (Principle 1). Second, “it is generally difficult to outperform humans using imitation learning alone: even a perfect imitator can only perform as well as the source it is imitating; superhuman performance typically comes from executing human action sequences faster and more reliably by smoothing out inconsistencies in human behavior” \[25]. Using LLMs with strong capabilities to initialize the policy also gives us the hope of producing such action sequences (Principle 1). Finally, because the responses are generated from the policy model itself and more consistent with the model knowledge, they can reduce hallucinations from the base model’s perspective by maintaining its integrity (Principle 2). Such a way of maintaining the base model’s capability and generalizability (Principle 2) could also probably contribute to better OOD generalizability on real-world user inputs of the final policy model \[37].
+</details>
 
-<p>RLHF could work because of using a base model with strong capabilities to initialize both reward model and policy (as well as critic and reference models), which is essentially according to our Principle 1. Let’s first see why RLHF could theoretically work better than SFT imitation learning under the reward modeling framework. </p>
+<p><br /></p>
 
-<p>From the perspective of the reward model, RL people consistently had the sense that a well-generalized reward model is one of the most important things for RLHF to work. First, “ RLHF could generalize better since evaluation is usually ‘easier’ than generation for most tasks we care about” [25], which is one fundamental assumption that Reward Modeling and RLHF could work [25]. That is especially true when the reward base model has strong and deep understanding capability (Principle 1). Second, we have the hope that “the model can learn user intentions to a sufficiently high accuracy”, which is another fundamental assumption for Reward Modeling [25]. Similarly, this can only come true with a very strong reward base model (Principle 1). Finally, “the ambition of reward modeling is to solve all design specification problems, thus all we need to do is equip the LLM agent with the ‘correct’ reward function and reward modeling is meant to be a one-stop solution for this entire alignment problem” [25]. Again, a strong reward base model gives us such hope. In summary, all of the above requires a strong base model initializing the RM and eliciting strong capabilities from the base model to complete preference/reward labeling task (Principle 1). </p>
+<details>
+  <summary> <b>How to construct a reward model?</b> </summary>
+  <br />
+  Our purpose is to make the reward base model able to do preference labeling tasks in an aligned way, instead of altering the reward base model’s capability significantly.
+  <br /><br />
+  By using strong base models as initialization (Principle 1)  and higher volume of real-world preference labeled data to cover various intents over a wider range of inputs, we have the hope that the model could learn user intentions to a sufficiently high accuracy. 
+  <br /><br />
+  Besides, we also need to maintain generalization capability of the base model (Principle 2), so that we can mostly eliminate cases of reward hacking from the RM side. Only in this way, it can provide reliable reward scores on out-of-distribution input (instruction and response pairs). Then the reward given by the RM on a wider range of examples would not mislead policy update to an incorrect direction. Otherwise, as reward modeling scaling law \[30] demonstrated, scores of gold human preference (gold reward model) will reach a plateau or even decrease, although the reward model’s rewards increase during policy updating in RL training (accompanied by increase of KL divergence between updated policy and initial policy). To overcome this, more real-world preference data also has its values, which ensures the input diversity and more broad coverage of human intents (Principle 3). That could alleviate the ambiguity and inconsistency of preferences, and avoid overfitting to any specific area of intents, thus alleviating RM overfitting and reward hacking by reflecting more reliable true general human intents insteads. Meanwhile, if we believe the reward model capability is still mainly from the base model, which is strong enough to generalize to most input and response distributions. One principle should be that no matter whether we construct instructions from models or collect instructions from real-world users, we need to make sure that the instructions should have high diversity \[2, 23] (Principle 3). Also, the response pairs should have high diversity \[23] (Principle 3), which could be produced by proper sampling strategy and various model families and checkpoints \[31]. 
+  <br /><br />
+  Even if the reward model is correct in all sense, “how we can train the agent policy to robustly produce behavior incentivized by the reward model”\[25] is still an open question. That means, from the RM perspective, the reward model should be robust enough under optimization pressure.
+</details>
 
-<p>From the perspective of policy updating towards higher reward, first, “reward modeling allows us to shift the burden of solving the credit assignment problem from the user to the policy of RL”[25]. Thus, LLM policy should have the capability to automatically assign credit on the whole response to each token (Principle 1). Second, “it is generally difficult to outperform humans using imitation learning alone: even a perfect imitator can only perform as well as the source it is imitating; superhuman performance typically comes from executing human action sequences faster and more reliably by smoothing out inconsistencies in human behavior” [25]. Using LLMs with strong capabilities to initialize the policy also gives us the hope of producing such action sequences (Principle 1). Finally, because the responses are generated from the policy model itself and more consistent with the model knowledge, they can reduce hallucinations from the base model’s perspective by maintaining its integrity (Principle 2).</p>
+<p><br /></p>
 
-<h4 id="how-to-construct-a-reward-model">How to construct a reward model?<a id="how-to-construct-a-reward-model"></a></h4>
+<details>
+  <summary> <b>How to update the policy?</b> </summary>
+  <br />
+  From the perspective of policy, the reward model should accurately encourage or discourage policy base model’s behavior during self-exploration, although it does not necessarily teach the policy models new capabilities. That said, we should respect the base model’s knowledge (Principle 2) by avoiding data points that conflict with the model's knowledge, even if they are true. In other words, “a model should be honest about its own capabilities and levels of knowledge, not sufficient for it to simply imitate”\[12]. RLHF can automatically maintain this because all the responses are generated by the base model itself according to its own knowledge. In the same spirit, during human labeled data collection of SFT, we should collect those data points that are not only true but also consistent with the model’s knowledge. That requires more effort on data annotation and collection, but alternatively can be partially solved by best-of-n sampling combined with SFT.
+  <br /><br />
+  Note that there are some other regularization tricks to better maintain the policy base model’s general capability (Principle 2). For arithmetic regularization, PPO RLHF added an KL divergence or equivalent clipped gradient update, and added an additional reward that penalizes the KL divergence between the learned RL policy and the initial policy.  For data regularization, InstructGPT also added a pretraining next-token prediction loss term over the training objective during alignment. 
+</details>
+<p><br /></p>
 
-<p>Our purpose is to make the reward base model able to do preference labeling tasks in an aligned way, instead of altering the reward base model’s capability significantly. </p>
-
-<p>By using strong base models as initialization (Principle 1)  and higher volume of real-world preference labeled data to cover various intents over a wider range of inputs, we have the hope that the model could learn user intentions to a sufficiently high accuracy. </p>
-
-<p>Besides, we also need to maintain generalization capability of the base model (Principle 2), so that we can mostly eliminate cases of reward hacking from the RM side. Only in this way, it can provide reliable reward scores on out-of-distribution input (instruction and response pairs). Then the reward given by the RM on a wider range of examples would not mislead policy update to an incorrect direction. Otherwise, as reward modeling scaling law [30] demonstrated, scores of gold human preference (gold reward model) will reach a plateau or even decrease, although the reward model’s rewards increase during policy updating in RL training (accompanied by increase of KL divergence between updated policy and initial policy). To overcome this, more real-world preference data also has its values, which ensures the input diversity and more broad coverage of human intents (Principle 3). That could alleviate the ambiguity and inconsistency of preferences, and avoid overfitting to any specific area of intents, thus alleviating RM overfitting and reward hacking by reflecting more reliable true general human intents insteads. Meanwhile, if we believe the reward model capability is still mainly from the base model, which is strong enough to generalize to most input and response distributions. One principle should be that no matter whether we construct instructions from models or collect instructions from real-world users, we need to make sure that the instructions should have high diversity [2, 23] (Principle 3). Also, the response pairs should have high diversity [23] (Principle 3), which could be produced by proper sampling strategy and various model families and checkpoints [31]. </p>
-
-<p>Even if the reward model is correct in all sense, “how we can train the agent policy to robustly produce behavior incentivized by the reward model”[25] is still an open question. That means, from the RM perspective, the reward model should be robust enough under optimization pressure.</p>
-
-<h4 id="how-to-update-the-policy">How to update the policy?<a id="how-to-update-the-policy"></a></h4>
-
-<p>From the perspective of policy, the reward model should accurately encourage or discourage policy base model’s behavior during self-exploration, although it does not necessarily teach the policy models new capabilities. That said, we should respect the base model’s knowledge (Principle 2) by avoiding data points that conflict with the model’s knowledge, even if they are true. In other words, “a model should be honest about its own capabilities and levels of knowledge, not sufficient for it to simply imitate”[12]. RLHF can automatically maintain this because all the responses are generated by the base model itself according to its own knowledge. In the same spirit, during human labeled data collection of SFT, we should collect those data points that are not only true but also consistent with the model’s knowledge. That requires more effort on data annotation and collection, but alternatively can be partially solved by best-of-n sampling combined with SFT.</p>
-
-<p>Note that there are some other regularization tricks to better maintain the policy base model’s general capability (Principle 2). For arithmetic regularization, PPO RLHF added an KL divergence or equivalent clipped gradient update, and added an additional reward that penalizes the KL divergence between the learned RL policy and the initial policy.  For data regularization, InstructGPT also added a pretraining next-token prediction loss term over the training objective during alignment. </p>
-
-<h3 id="rlaif-alignment">RLAIF Alignment<a id="rlaif-alignment"></a></h3>
+<h4 id="rlaif-alignment">RLAIF Alignment<a id="rlaif-alignment"></a></h4>
 
 <p>The reason why RLAIF could work is essentially also to leverage strong capabilities of base models to provide preferences (Principle 1), which enable reliable (strong capability) and scalable (automatic model annotation) oversight. Through this, one could still provide human values to be aligned through principles with minimal intervention to the model (e.g. constitutional AI [17]), while avoiding degradation of the base model’s general capability, because we can avoid tuning the reward model with limited and biased human preferences and maintain base model’s capability (Principle 2). Most importantly, we can potentially leverage many superhuman capabilities of the base model (Principle 1) to get a superhuman AGI, especially if we believe evaluation is easier than generation in many tasks [25]. </p>
 
 <p>How to align a superhuman AGI through reward modeling? One natural and unified way is to use weak-to-strong generalization to elicit a base model’s capability (Principle 1), although this still poses challenges towards scalable reward modeling [16]. Another is to use scalable oversight methods like recursive reward models [25], which, however, involves more steps and human interventions, potentially hindering base model’s generalizability and scalability (which is slightly against our Principle 2).</p>
 
-<h3 id="dpo-alignment">DPO Alignment<a id="dpo-alignment"></a></h3>
+<h4 id="dpo-alignment">DPO Alignment<a id="dpo-alignment"></a></h4>
 
 <p>DPO seems to have all the advantages of PPO and is more convenient. But we would try to use our principle to compare DPO and PPO, potentially predicting whether DPO will actually be better in the long run.</p>
 
@@ -258,6 +295,8 @@
   <li><a href="http://www.incompleteideas.net/IncIdeas/BitterLesson.html">http://www.incompleteideas.net/IncIdeas/BitterLesson.html</a></li>
   <li>SALMON: Self-Alignment with Principle-Following Reward Models</li>
   <li>Principle-Driven Self-Alignment of Language Models from Scratch with Minimal Human Supervision</li>
+  <li>Data Engineering for Scaling Language Models to 128K Context</li>
+  <li>Understanding the Effects of RLHF on LLM Generalisation and Diversity</li>
 </ol>
 
 <h2 id="appendix">Appendix:<a id="appendix"></a></h2>
@@ -269,26 +308,25 @@
 
 <h3 id="my-timeline-on-twitter-reflecting-my-opinions">My timeline on Twitter reflecting my opinions:<a id="my-timeline-on-twitter-reflecting-my-opinions"></a></h3>
 
-<p><img src="https://lh7-us.googleusercontent.com/s4bGLE1LOdvbjgCXCNnYsZ8mQ7vHGpcrToJlLS7IV6KUHoGlBtqnIIhqD0J0RPmn9ybZKQfnndznHr7u9FLRhWXepvvYFQKTjSc5Pp9JXqUjLVXjmAXQGFQ2gn_w9yczZDF6RH20fSWsF1-GE2368m0" alt="" /></p>
+<p><img src="https://lh7-us.googleusercontent.com/ZG6Gz56gjM999MaXE6CG6F7LjbTaWSkX0-13T9B5maNr1KRNxXswUVKXbGr7gcL-kciFR4LxChmC3_V0DFbGDnnBQe7Jl8pENoPIGK4WOSTufRzUz16n2ejXNSD2x7f4wo87MHyutGWWkOVuKVf7IbA" alt="" /></p>
 
-<p><img src="https://lh7-us.googleusercontent.com/vG7hLGshI0W07iFpp5hgQqIgbi_TUAmHVd9LCi6eTagr50DU2f2d9AvfALLIPd20XXOv2d6HoZpHzfaWBVjJ3-hVzeWQyaS2cSHvXDDX2kz711SGr3VjjgcADrTqwJFc3X2UG2rYboq1msKO4gamfcM" alt="" /></p>
+<p><img src="https://lh7-us.googleusercontent.com/1O9Qh0Isr-gRj3d7UIMf3wQV70rUZ-Zn6HLbwFe8L8rdxtCmk_ct0PTuJviM7gPYPvbftyNoyTqz9ZDeLBRCI8MeXQJ_W25Vkpyuo5CFqHlMp1ZfGItnBM3efTtDkVLK7lQ_ug3wRXIt9D3QXiZaIBg" alt="" /></p>
 
-<p><img src="https://lh7-us.googleusercontent.com/yVLWsZhuNlbFjZx7Bsa3W4zcb11gYhK5VxSEiZIpeG6bDb9pum0wDEs70sIojRfglSdE75C3oCaYYljI8c5O2na41PHG9Z-OTOD3Wy-QLS0FOqIZyjJJ9bRvT8lYCj4L4UJ4UJ1G7uBHDSnFEG7Ik1o" alt="" /></p>
+<p><img src="https://lh7-us.googleusercontent.com/3_9BWC_9KFxArW4iS1vEtFT4CBTrAGF51uKKiGBXjB5cOlYe4h7jnn_i6oUdTVW2sXUs37u9-S_eEg2P1eVNYQg2Dtc7c8g_uYvZ0zQL_py-UAkg-4tRLpeVMNnp7V4eEmwdNcz_0PrJXfkcago2NC8" alt="" /></p>
 
-<p><img src="https://lh7-us.googleusercontent.com/KckUQI4sUj9jwdmskLV7weaSJySH5y2U74jKf9oPfTeNnpG7BLCrSC7Qof0293fLZsKdc0o1NxL9gtYiU-bBjnRD2n06a2ManPdgLxpZa1gCNgNdRR8ny6N5bZioyvRQ_qa0AFZsWruCb_jyBf_TuX0" alt="" /></p>
+<p><img src="https://lh7-us.googleusercontent.com/MftqfijPdZbcRU8vDK1KwWMsTMsPfLZ8m3tUwEBAipfCIHv5GxKxeLlksdnNmtMsFrA50kj4t9jRISTpTHMvVjpy0c-xhsw8AgVfsX5TulzuVtnmbEinXh-vJnmMr5BvemSKVMdCRM20oNhepP5EeWM" alt="" /></p>
 
-<p><img src="https://lh7-us.googleusercontent.com/VIrzqt56R66OeHuLU3K0R3g5NYUpS-Zw2gvkJzVAfQuaOoi5lthkfUJGsNpmuxhwckY3iFQeo90R3G967KA-gpPfFWz1F1hwofyN5IB6varsGOH3VOoqqFSr8yGzcZtgECpPPW0EGRaN9XG_t9L1Jwk" alt="" /></p>
+<p><img src="https://lh7-us.googleusercontent.com/603HAcK374QzVrXDsLI9cHxl0UnUKzpVDbFAWoB3qTVT8qxwjacDaZGj8CMwaLlY4CnKnIuMEmMQ16uv9PNKkpSTGlTJ31_pupKjjxVt1zLhjz4wox6opCZJ7bEo-9ZAW-w4ug8rWazKTJTlFJWbCGc" alt="" /></p>
 
-<p><img src="https://lh7-us.googleusercontent.com/aCuJpAUW3wClk_Xt9f35yamLO03c1UBXqwcZ_fZ2HkkQrEXMun_pboEfDr-VAKd9fhv-vYQmcVlUQ1nelaWByIRI_nHMvOgGqc6da4GmSgHYCrD1JXJneKy3ZrDgRHqOayhbEuhy_b1X-tjOrfKhylk" alt="" /></p>
+<p><img src="https://lh7-us.googleusercontent.com/11lF2FnBO9pET95S-LaB8hmUh73pZR8QLOwtgXXMYdQfcIXpLiJGYClyunfRgrKZZhF2Ygyv-nMZZlm1T03JbYyL0pYiG2S7USlGIso0Bpx1lF92VIHczmiDLUIcFXvC5SIS5xNKtF55bMeMUeTSzOA" alt="" /></p>
 
-<p><img src="https://lh7-us.googleusercontent.com/C4H-RQdVR5uPR3FBuourcNzA-O70zIjuSoYIx2WMLor9fp4ggBrD3D3JClXb-cvHK6cClqguv23ZvJ_UJIfO0yh9gGcZNPgs-dsYbGwEk2HCmgJGDnvYKf_B9n6q1D6e2s5h4L7ajDbLmpHgHkPp2JA" alt="" /></p>
+<p><img src="https://lh7-us.googleusercontent.com/GlKnN_Rsy3-PB34lkxCYZ8g_4Sj3H6fQU-_YbfUAVserjX7gEoUVw2n0a1y2fbo49weUZOPQHQ3fny9lbw0lfzYvpqfepb5G3d8BaD3vhvORrVbCtKJH_sWDqSGiB-kg0uCWvHSnmo9ueXZ8Af4tUJo" alt="" /></p>
 
-<p><img src="https://lh7-us.googleusercontent.com/Tyqga_1wke89kolktXE0f13k5HERgvfqojYEJYlT6kPMkPUyPkXkEijAnMVBptuDAH2GqpRWv65DY0HQEoc3Ik0306cKU06euFG_n9n80NXvspz7XZUoQVwPKMVbABJz_am6_PtZxm4AyQeuW2Gg-MQ" alt="" /></p>
+<p><img src="https://lh7-us.googleusercontent.com/TGIyOyPc9wVgydX_BZ9lBDM58Sj4owDmotDr9M-zE6npjBJ-jsicvDYwkW8o-LnbXRmo0_N3Ym7CDJDvKYGpLFjtKzzq9-t5j1SlaHqt-4aArTq4gMK-0oILo0clj4APwbXNwVY8tFW8rAcyLUPJGSo" alt="" /></p>
 
-<p><img src="https://lh7-us.googleusercontent.com/nkc9sWHHLVDNpc74dasb-8hBSgpiRBQNVoPzu1YRwGSiXr4DQ4AfCSmJ41xjgEl6bmz-fr9NDIcV8tdx68j4jGVdtxwZ7f5-MDsmUQ_gYw2_4qydXoXuuJeTjzLLH8EB7q7xN04rq0omh4KpxQnKzko" alt="" /></p>
+<p><img src="https://lh7-us.googleusercontent.com/xLTbFtl6yASg6xXYfVUDNFmpeiu_3L6cQsc23WrNeIMRSW8V802Tj7I3t9J8kwYBKQpKwSQ9iBOv1_Mi9o1vOjnCr1DrjGpmT9Q5865kPXyq5erc1IN84cAGbDNlsNfzSDkjvz0iPRQJNDLVLTF6KA0" alt="" /></p>
 
-<p><img src="https://lh7-us.googleusercontent.com/sUzp12kqvKrZO6eA_7V7Q0nfeGZykpaWapCyfFUirzSXAVwAzKgwkTSN4FsEKIPITt2IzM1e7uMNuRehyDfTmlar2SDyxiDCSqx13FWtGUhxyu8kc2RS2T9FzRhtklPZHmrU5kdTdedZSFSBt503_SE" alt="" /></p>
-
+<p><img src="https://lh7-us.googleusercontent.com/LWnfpWbThnPrhUU6GY4aQr1k3IpgU06IZCs8RUqHCETGgyRAHcIxyFIlYUTbzjNevIy__ngyaNZ5MaQVu4S8ChUZgZzze7fa4Isc5vWzfSZitsBZr_ncd9qlY9EJwyFOr3vde1-UjXkfHg_LqqDPuG4" alt="" /></p>
 
 </div>
 
