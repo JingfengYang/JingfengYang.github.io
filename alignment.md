@@ -25,7 +25,7 @@ All the arguments are based on the goal that base model construction and alignme
     3. [Alignment by Fine Tuning](#alignment-by-fine-tuning)
         1. [SFT Alignment](#sft-alignment)
         2. [RLHF Alignment](#rlhf-alignment)
-        3. [RLAIF Alignmentg](#rlaif-alignment)
+        3. [RLAIF Alignment](#rlaif-alignment)
         4. [DPO Alignment](#dpo-alignment)
 7. [Why do many evaluation results still seem good without following our principles?](#why-do-many-evaluation-results-still-seem-good-without-following-our-principles--the-importance-of-proper-evaluation)
 8. [What’s the implications and future research questions considering major capabilities come from base models?](#whats-the-implications-and-future-research-questions-considering-major-capabilities-come-from-base-models)
