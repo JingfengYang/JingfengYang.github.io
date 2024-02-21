@@ -1,64 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Capability or Alignment? Respect the LLM Base Model’s Capability During Alignment</title>
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,600">
-    <link href="/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
-    <link rel="alternate" type="application/rss+xml" title="RSS Feed for Jingfeng Yang" href="/feed.xml" />
-    <script src="https://kit.fontawesome.com/5186839478.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-</head>
-
-
-<body class="preload">
-    <div class="top"></div>
-    <div class="profile" style="background-image: url(bg3.jpeg);">
-        <img src="../SD4.jpeg" class="img-circle" />
-        <h3 >Jingfeng Yang</h3>
-        <p style="color:white;">yjfllpyym@gmail.com</p>
-        <ul class="social">
-            
-            <a type="button" href="http://github.com/JingfengYang">
-                <i class="fa-brands fa-github fa-2x"></i>
-            </a>
-             
-            <a type="button" href="https://www.semanticscholar.org/author/Jingfeng-Yang/7788583">
-                <i class="ai ai-semantic-scholar-square ai-2x"></i>
-            </a>
-             
-            <a type="button" href="https://scholar.google.com/citations?user=hysBvrwAAAAJ&hl=en">
-                <i class="ai ai-google-scholar-square ai-2x"></i>
-            </a>
-             
-            <a type="button" href="http://twitter.com/JingfengY">
-                <i class="fa-brands fa-twitter fa-2x"></i>
-            </a>  
-             
-            <a type="button" href="http://linkedin.com/in/jingfeng-yang-797864172">
-                <i class="fa-brands fa-linkedin fa-2x"></i>
-            </a>
-             
-            <a type="button" href="https://www.zhihu.com/people/albertyang-86">
-                <i class="fa-brands fa-zhihu fa-2x"></i>
-            </a>
-               
-        </ul>
-    </div>
-    <div class="posts">
-        <header class="head">
-  <h1 class="head-title">
-    <a href="/">Jingfeng Yang</a>
-  </h1>
-</header>
-
-
-<div class="content page">
-  <h1 class="page-title">Capability or Alignment? Respect the LLM Base Model’s Capability During Alignment</h1>
-  <p>I started writing this post on Dec 28th, 2023, and finished it on Feb 14th, 2024. All the opinions are my own, not reflecting the view of my affiliation or any others. Actually, this post largely summarizes and elaborates my thoughts expressed on Twitter since March 21st, 2023, as demonstrated in the Appendix. I also added a lot more detailed thoughts from some early Anthropic and OpenAI papers and blog posts. Thanks Hongye Jin and Yijia Shao for providing useful feedback on the initial draft.</p>
+I"��<p>I started writing this post on Dec 28th, 2023, and finished it on Feb 14th, 2024. All the opinions are my own, not reflecting the view of my affiliation or any others. Actually, this post largely summarizes and elaborates my thoughts expressed on Twitter since March 21st, 2023, as demonstrated in the Appendix. I also added a lot more detailed thoughts from some early Anthropic and OpenAI papers and blog posts. Thanks Hongye Jin and Yijia Shao for providing useful feedback on the initial draft.</p>
 
 <p>Last year saw a boom of LLMs research. Based on the research, one important lesson would be that we should devote most of our efforts to training a general-purpose LLM base model, and leverage it as much as possible after all. I might be opinionated, but I always believe that one general principle is that we need to respect the base model’s capability during alignment. This argument might be common sense among many people, but it is still controversial among others, especially when it comes to the boundary between capability and alignment.  Feel free to correct me if you have more solid empirical evidence. </p>
 
@@ -328,14 +268,4 @@
 <p><img src="https://lh7-us.googleusercontent.com/xLTbFtl6yASg6xXYfVUDNFmpeiu_3L6cQsc23WrNeIMRSW8V802Tj7I3t9J8kwYBKQpKwSQ9iBOv1_Mi9o1vOjnCr1DrjGpmT9Q5865kPXyq5erc1IN84cAGbDNlsNfzSDkjvz0iPRQJNDLVLTF6KA0" alt="" /></p>
 
 <p><img src="https://lh7-us.googleusercontent.com/LWnfpWbThnPrhUU6GY4aQr1k3IpgU06IZCs8RUqHCETGgyRAHcIxyFIlYUTbzjNevIy__ngyaNZ5MaQVu4S8ChUZgZzze7fa4Isc5vWzfSZitsBZr_ncd9qlY9EJwyFOr3vde1-UjXkfHg_LqqDPuG4" alt="" /></p>
-
-</div>
-
-    </div>
-</body>
-<script type="text/javascript">
-    window.onload = function(){
-        document.getElementsByTagName("BODY")[0].classList.remove("preload");
-    }
-</script>
-</html>
+:ET
