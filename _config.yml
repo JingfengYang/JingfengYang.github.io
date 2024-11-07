@@ -30,8 +30,6 @@ nav:
     href:           "#bio"
   - name:           "News"
     href:           "#news"
-  - name:           "Education"
-    href:           "#education"
   - name:           "Blog"
     href:           "#blog"
   - name:           "Publications"
