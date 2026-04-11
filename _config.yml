@@ -46,8 +46,6 @@ nav:
     href:           "#teaching"
   - name:           "Awards"
     href:           "#awards"
-  - name:           "Intern Mentorship"
-    href:           "#intern"
 
 posts:
   - title:          "Test Blog"
